@@ -34,21 +34,22 @@
       z-index: 1;
       white-space: nowrap;
       opacity: 0.9;
+      transform: rotate(0deg);
     }
 
     @keyframes fall {
       0% {
         top: -50px;
         opacity: 1;
-        transform: translateX(0px);
+        transform: translateX(0px) rotate(0deg);
       }
       50% {
-        transform: translateX(20px);
+        transform: translateX(30px) rotate(10deg);
       }
       100% {
         top: 100%;
-        opacity: 0.5;
-        transform: translateX(-20px);
+        opacity: 0;
+        transform: translateX(-30px) rotate(-10deg);
       }
     }
   </style>
@@ -62,7 +63,7 @@
     const ctx = canvas.getContext('2d');
 
     let stars = [];
-    let numStars = 150;
+    let numStars = 120;
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -98,19 +99,34 @@
     }
     drawStars();
 
-    // Create many "I LOVE YOU"
+    // Texts list
+    const texts = [
+      "I LOVE YOU ❤️",
+      "I MISS YOU SO MUCH 💭",
+      "MUAHHH KISSIE 😘",
+      "HUGGIEE 🤗",
+      "MY WIFE 💍"
+    ];
+
+    // Create falling text
     function createLove() {
       const love = document.createElement("div");
       love.className = "love";
-      love.innerText = "I LOVE YOU";
+      love.innerText = texts[Math.floor(Math.random() * texts.length)];
 
       // Random position & size
-      love.style.left = Math.random() * (window.innerWidth - 150) + "px";
-      love.style.fontSize = (1.5 + Math.random() * 2.5) + "rem";
+      love.style.left = Math.random() * (window.innerWidth - 200) + "px";
+      love.style.fontSize = (1.5 + Math.random() * 2) + "rem";
 
-      // Random speed
-      let duration = 3 + Math.random() * 4; // 3s - 7s
+      // Random animation duration
+      let duration = 4 + Math.random() * 4; // 4s - 8s
       love.style.animationDuration = duration + "s";
+
+      // Random color glow
+      const colors = ["#ff007f", "#ff3399", "#ff66b2", "#ffccff", "#ff99cc"];
+      const c = colors[Math.floor(Math.random() * colors.length)];
+      love.style.color = c;
+      love.style.textShadow = `0 0 10px ${c}, 0 0 20px ${c}, 0 0 40px ${c}`;
 
       document.body.appendChild(love);
 
@@ -120,8 +136,8 @@
       }, duration * 1000 + 500);
     }
 
-    // Spam texts faster for more effect
-    setInterval(createLove, 150); // every 0.15s
+    // Slower spawning (smoother)
+    setInterval(createLove, 600); // every 0.6s
   </script>
 </body>
-    </html>
+</html>
